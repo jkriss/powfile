@@ -9,7 +9,6 @@ const contentType = 'text/plain'
 // the single file version (also pass a dir for zipping?)
 const imageWithData = create({ image, data, contentType })
 
-const { headers, body } = parse(imageWithData)
+const res = parse(imageWithData)
 
-console.log("headers:", headers)
-console.log(`body:\n${body.toString()}`)
+console.log(res.toString())

@@ -9,6 +9,7 @@
   "author": "Jesse Kriss <jesse@jklabs.net>",
   "license": "ISC",
   "dependencies": {
-    "parse-raw-http": "0.0.1"
+    "parse-raw-http": "0.0.1",
+    "png-pack": "0.0.1"
   }
 }

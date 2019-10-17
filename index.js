@@ -1,5 +1,4 @@
 const pngPack = require('png-pack')
-const { parseResponse } = require('parse-raw-http').parseResponse
 const LF = '\r\n'
 const keyword = 'PowData'
 
@@ -19,9 +18,7 @@ const create = ({ image, data, contentType }) => {
 }
 
 const parse = (imageData) => {
-  const buf = pngPack.decode(imageData, { keyword })
-  const resObj = parseResponse(buf, { decodeContentEncoding: true })
-  return { headers: resObj.headers, body: resObj.bodyData }
+  return pngPack.decode(imageData, { keyword })
 }
 
 module.exports = {
