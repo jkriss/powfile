@@ -10,7 +10,7 @@ const run = async () => {
   // the single file version
   const imageWithData = await create({ image, data, contentType })
 
-  const res = parse(imageWithData)
+  const res = await parse(imageWithData)
 
   console.log(res.toString())
 }

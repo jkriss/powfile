@@ -1,6 +1,8 @@
 const pngPack = require('png-pack')
 const JSZip = require('jszip')
+const { parseResponse } = require('parse-raw-http').parseResponse
 const LF = '\r\n'
+const ZIP_TYPE = 'application/zip'
 const keyword = 'PowData'
 
 const makeResponse = (buf, headers={}) => {
@@ -22,15 +24,22 @@ const create = async ({ image, data, files, contentType }) => {
       const fileData = files[filename]
       zip.file(filename, fileData) 
     }
-    contentType = 'application/zip'
+    contentType = ZIP_TYPE 
     data = await zip.generateAsync({ type: 'nodebuffer' })
   }
   const res = makeResponse(data, { 'Content-Type': contentType })
   return pngPack.encode(image, res, { keyword })
 }
 
-const parse = (imageData) => {
-  return pngPack.decode(imageData, { keyword })
+const parse = async (imageData, opts={}) => {
+  const buf = pngPack.decode(imageData, { keyword })
+  if (opts.unzip) {
+    const res = parseResponse(buf, { decodeContentEncoding: true })  
+    if (res.headers['content-type'] === ZIP_TYPE) {
+      return JSZip.loadAsync(res.bodyData)
+    }
+  }
+  return buf
 }
 
 module.exports = {

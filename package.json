@@ -10,9 +10,8 @@
   "license": "ISC",
   "dependencies": {
     "jszip": "^3.2.2",
+    "parse-raw-http": "0.0.1",
     "png-pack": "0.0.1"
   },
-  "devDependencies": {
-    "parse-raw-http": "0.0.1"
-  }
+  "devDependencies": {}
 }

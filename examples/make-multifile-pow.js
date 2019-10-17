@@ -14,10 +14,8 @@ const run = async () => {
   }
   const imageWithData = await create({ image, files })
 
-  const res = parse(imageWithData)
-  const { bodyData } = parseResponse(res, { decodeContentEncoding: true })
-  const zip = await JSZip.loadAsync(bodyData) 
-
+  const zip = await parse(imageWithData, { unzip: true })
+  
   zip.forEach(filepath => console.log(filepath))
 }
 
