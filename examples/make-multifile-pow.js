@@ -17,6 +17,9 @@ const run = async () => {
   const zip = await parse(imageWithData, { unzip: true })
   
   zip.forEach(filepath => console.log(filepath))
+  
+  const index = await zip.file('index.html').async('nodebuffer')
+  console.log(`\nindex file:\n\n${index.toString()}`)
 }
 
 run()

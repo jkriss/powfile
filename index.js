@@ -1,12 +1,18 @@
 const pngPack = require('png-pack')
 const JSZip = require('jszip')
 const { parseResponse } = require('parse-raw-http').parseResponse
+const mime = require('mime')
+const crypto = require('crypto')
 const LF = '\r\n'
 const ZIP_TYPE = 'application/zip'
 const keyword = 'PowData'
 
 const makeResponse = (buf, headers={}) => {
+  headers['Date'] = (new Date()).toUTCString()
   headers['Content-Length'] = buf.length
+  const hash = crypto.createHash('MD5')
+  hash.update(buf)
+  headers['ETag'] = hash.digest('hex')
   const lines = [`HTTP/1.1 200 OK`]
   for (let k in headers) {
     lines.push(`${k}: ${headers[k]}`)
@@ -21,8 +27,10 @@ const create = async ({ image, data, files, contentType }) => {
     // make a zip from the files map
     const zip = new JSZip()
     for (const filename of Object.keys(files)) {
-      const fileData = files[filename]
-      zip.file(filename, fileData) 
+      let fileData = files[filename]
+      if (typeof fileData === 'string') fileData = Buffer.from(fileData)
+      const res = makeResponse(fileData, { 'Content-Type': mime.getType(filename) })
+      zip.file(filename, res) 
     }
     contentType = ZIP_TYPE 
     data = await zip.generateAsync({ type: 'nodebuffer' })
