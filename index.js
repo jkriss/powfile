@@ -1,7 +1,7 @@
 const pngPack = require('png-pack')
 const JSZip = require('jszip')
 const { parseResponse } = require('parse-raw-http').parseResponse
-const mime = require('mime')
+const mime = require('mime/lite')
 const crypto = require('crypto')
 const LF = '\r\n'
 const ZIP_TYPE = 'application/zip'
