@@ -1,6 +1,6 @@
 {
   "name": "powfile",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -12,7 +12,7 @@
     "jszip": "^3.2.2",
     "mime": "^2.4.4",
     "parse-raw-http": "0.0.1",
-    "png-pack": "0.0.1"
+    "png-pack": "0.0.2"
   },
   "devDependencies": {}
 }
